@@ -7,6 +7,9 @@ import { logoutAsync } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Popup, PopupButton, Search } from '../../molecules';
 import { getAccessToken, getRefreshToken } from '@internship/shared/utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook, faFilm, faHome } from '@fortawesome/free-solid-svg-icons';
+import { Button } from '../../atoms/Button';
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
@@ -39,7 +42,7 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm bg-primary  navbar-dark">
+    <nav className="navbar navbar-expand-md bg-dark  navbar-dark">
       <div className="container">
         <button
           className="custom-toggler navbar-toggler"
@@ -55,66 +58,74 @@ export const Navigation = () => {
         </button>
         <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`} id="navbar">
           <ul className="navbar-nav mr-auto">
-            <li className="navbar-brand">
+            <li className="navbar-brand nav-link">
               <NavLink exact to="/" className="nav-link"
                        onClick={() => dispatch({ type: '@temp/ERROR_REQUIRED', payload: null })}>
-                Home
+                <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }} />Home
               </NavLink>
             </li>
-            <li className="nav-link">
+            <li className="navbar-brand nav-link">
               <NavLink
-                to="/about"
+                to="/book"
                 className="nav-link"
                 onClick={() => {
                   dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
                   dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
                 }}
               >
-                About
+                <FontAwesomeIcon icon={faBook} style={{ marginRight: '10px' }} />Book
               </NavLink>
             </li>
-            <li className="nav-link">
+            <li className="navbar-brand nav-link">
               <NavLink
-                to="/contact"
+                to="/movie"
                 className="nav-link"
                 onClick={() => {
                   dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
                   dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
                 }}
               >
-                Contact Us
+                <FontAwesomeIcon icon={faFilm} style={{ marginRight: '10px' }} />Movie
               </NavLink>
             </li>
             {isAuthenticated ? (
-              <NavDropdown className="nav-link" title={<FaUserAlt />} id="basic-nav-dropdown">
-                <NavLink
-                  className="dropdown-item"
-                  to="/profile"
-                  type="button"
-                  onClick={() => {
-                    dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
-                    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
-                  }}
-                >
-                  Profile
-                </NavLink>
-                <NavDropdown.Item type="button" to={location.pathname} onClick={handleOpen}>
-                  Logout
-                </NavDropdown.Item>
-                <Popup show={show} onHide={handleClose}>
-                  Sistemden Çıkıyorsunuz Emin misiniz?
-                  <PopupButton variant="secondary" onClick={handleClose}>
-                    HAYIR
-                  </PopupButton>
-                  <PopupButton type="submit" variant="primary" onClick={handleShow}>
-                    EVET
-                  </PopupButton>
-                </Popup>
-              </NavDropdown>
+              <>
+                <NavDropdown className="nav-link" title={<FaUserAlt />} id="basic-nav-dropdown">
+                  <NavLink
+                    className="dropdown-item"
+                    to="/profile"
+                    type="button"
+                    onClick={() => {
+                      dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                      dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+                    }}
+                  >
+                    Profile
+                  </NavLink>
+                  <NavDropdown.Item type="button" to={location.pathname} onClick={handleOpen}>
+                    Logout
+                  </NavDropdown.Item>
+                  <Popup show={show} onHide={handleClose}>
+                    Sistemden Çıkıyorsunuz Emin misiniz?
+                    <PopupButton variant="secondary" onClick={handleClose}>
+                      HAYIR
+                    </PopupButton>
+                    <PopupButton type="submit" variant="primary" onClick={handleShow}>
+                      EVET
+                    </PopupButton>
+                  </Popup>
+                </NavDropdown>
+                <li className="navbar-brand nav-link">
+                  <NavLink to="/becomeAnEditor">
+                    <Button variant="outline-primary">Do you want to become an editor?</Button>
+                  </NavLink>
+                </li>
+
+              </>
             ) : (
               <NavDropdown className="nav-link" title="Account" id="basic-nav-dropdown">
                 <NavLink
-                  className="dropdown-item"
+                  className="mr-auto dropdown-item"
                   to="/register"
                   onClick={() => {
                     dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
@@ -136,7 +147,6 @@ export const Navigation = () => {
               </NavDropdown>
             )}
           </ul>
-          <Search />
         </div>
       </div>
     </nav>
