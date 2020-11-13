@@ -38,4 +38,6 @@ export class AuthResource {
       })
       .then((r) => r.data);
   sendActivation = (data: string): Promise<string> => this.axios.get('auth/send-email?email=' + data, this.axiosRequestConfig);
+  becomeEditor = (data: any): Promise<any> => this.axios.post('user/become-editor', data, this.axiosRequestConfig).then((r) => r.data);
+
 }

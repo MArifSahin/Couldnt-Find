@@ -4,8 +4,6 @@ import { Button } from '../../atoms/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { useForm } from 'react-hook-form';
-import { loginAsync } from '@internship/store/authentication';
-import { Input } from '../../atoms/Input';
 import axios from 'axios';
 
 type SearchProps = {

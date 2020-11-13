@@ -29,8 +29,8 @@ export interface ForgotPasswordRequest {
 }
 
 export interface LogoutRequest {
-  accessToken:string;
-  refreshToken:string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface ResetPasswordRequest {
@@ -43,4 +43,17 @@ export interface ChangePasswordRequest {
   oldPassword: string;
   newPassword: string;
   newPasswordConfirmation: string;
+}
+
+export interface BecomeEditorRequest {
+  name: string;
+  lastname: string;
+  email: string;
+  phoneNumber: string;
+  whatDoYouWant: string;
+  hobbies: string;
+  education: string;
+  favBook: string;
+  favMovie: string;
+
 }

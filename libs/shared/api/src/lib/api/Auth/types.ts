@@ -8,10 +8,18 @@ export interface UserDetailResponse {
   image: string;
 }
 
-export interface  SessionDetailResponse {
+export interface SessionDetailResponse {
   refreshToken: string;
   accessToken: string;
   userAgent: string;
   expireDate: string;
   issueDate: string;
+}
+
+export interface BookDetailResponse {
+ editorScore: number;
+ userScore: number;
+ modes: number[];
+ reviews: string[];
+ reviewNumber: number;
 }

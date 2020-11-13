@@ -1,13 +1,14 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
 import { AxiosError } from 'axios';
 import {
+  BecomeEditorRequest,
   ChangePasswordRequest,
   ForgotPasswordRequest,
   LoginRequest,
   LogoutRequest,
   RegisterRequest,
   ResetPasswordRequest,
-  UpdateRequest,
+  UpdateRequest
 } from '@internship/shared/types';
 
 export const loginAsync = createAsyncAction('@Authentication/LOGIN_REQUEST', '@Authentication/LOGIN_SUCCESS', '@Authentication/LOGIN_FAILURE')<
@@ -53,3 +54,11 @@ export const changePasswordAsync = createAsyncAction(
   '@Authentication/CHANGE_PASSWORD_SUCCESS',
   '@Authentication/CHANGE_PASSWORD_FAILURE'
 )<ChangePasswordRequest, any, AxiosError>();
+
+export const becomeEditorAsync = createAsyncAction(
+  '@Authentication/BECOME_EDITOR_REQUEST',
+  '@Authentication/BECOME_EDITOR_SUCCESS',
+  '@Authentication/BECOME_EDITOR_FAILURE'
+)<BecomeEditorRequest, any, AxiosError>();
+
+

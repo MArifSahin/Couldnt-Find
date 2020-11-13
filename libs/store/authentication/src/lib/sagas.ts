@@ -6,7 +6,7 @@ import {
   changePasswordAsync,
   resetpasswordAsync,
   updateAsync,
-  updateLogout
+  updateLogout, becomeEditorAsync
 } from './actions';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { api } from '@internship/shared/api';
@@ -86,6 +86,16 @@ function* doUpdate({ payload }) {
   }
 }
 
+function* doBecomeEditor({ payload }) {
+  try {
+    yield call(api.auth.becomeEditor, payload);
+    yield put(becomeEditorAsync.success({}));
+  } catch (e) {
+    console.error(e);
+    yield put(becomeEditorAsync.failure(e));
+  }
+}
+
 function* doChangePassword({ payload }) {
   try {
     yield call(api.auth.changePassword, payload);
@@ -122,6 +132,10 @@ function* watchUpdateLogout() {
   yield takeLatest(updateLogout, doUpdateLogout);
 }
 
+function* watchBecomeEditor(){
+  yield takeLatest(becomeEditorAsync.request, doBecomeEditor);
+}
+
 export function* authenticationSaga() {
   yield all([
     fork(watchLogin),
@@ -132,5 +146,6 @@ export function* authenticationSaga() {
     fork(watchResetPassword),
     fork(watchChangePassword),
     fork(watchUpdateLogout),
+    fork(watchBecomeEditor)
   ]);
 }
