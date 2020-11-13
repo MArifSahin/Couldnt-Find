@@ -1,8 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import {
-  About,
-  Contact,
   ForgotPasswordPage,
   Login, MailErrorPage,
   MailSuccessPage,
@@ -10,7 +8,10 @@ import {
   OAuth2RedirectHandler,
   Profile,
   Register,
-  ResetPassword
+  ResetPassword,
+  Book,
+  Movie,
+  ReviewPage, BecomeAnEditor
 } from './pages';
 
 export const Routes = ({ children, ...props }) => {
@@ -18,8 +19,8 @@ export const Routes = ({ children, ...props }) => {
     <Router {...props}>
       {children}
       <Route exact path="/" component={MainPage} />
-      <Route path="/about" component={About} />
-      <Route path="/contact" component={Contact} />
+      <Route path="/book" component={Book} />
+      <Route path="/movie" component={Movie} />
       <Route path="/forgotpassword" component={ForgotPasswordPage} />
       <Route path="/resetpassword" component={ResetPassword} />
       <Route path="/profile" component={Profile} />
@@ -28,6 +29,8 @@ export const Routes = ({ children, ...props }) => {
       <Route exact path="/mailerror" component={MailErrorPage} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/reviewPage" component={ReviewPage} />
+      <Route path="/becomeAnEditor" component={BecomeAnEditor} />
     </Router>
   );
 };
