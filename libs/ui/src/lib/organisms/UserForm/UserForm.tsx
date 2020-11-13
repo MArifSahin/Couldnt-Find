@@ -129,23 +129,23 @@ export const UserForm: React.FC<UserFormProps> = ({ setEditUserInfo, setInEditMo
           Update
         </Button>
       </Row>
-      {logoutPopup ? (
-        <Popup show={logoutPopup} onHide={forceLogout}>
-          E-mail'inizi değiştirdiğiniz için çıkış yaptırılıyorsunuz.
-          <br /> Lütfen yeni mailinize gelen aktivasyonu onaylayıp tekrardan giriş yapınız.
-          <PopupButton variant="primary" onClick={forceLogout}>
-            Logout
-          </PopupButton>
-        </Popup>
-      ) : null}
-      {successPopup ? (
-        <Popup show={successPopup} onHide={successPopupFunction}>
-          {isSuccessRequired}
-          <PopupButton variant="primary" onClick={successPopupFunction}>
-            Submit
-          </PopupButton>
-        </Popup>
-      ) : null}
+      {logoutPopup && (
+        <>
+          <Popup show={logoutPopup} onHide={forceLogout}>
+            E-mail'inizi değiştirdiğiniz için çıkış yaptırılıyorsunuz.
+            <br /> Lütfen yeni mailinize gelen aktivasyonu onaylayıp tekrardan giriş yapınız.
+          </Popup>
+          {setTimeout(forceLogout, 3000)}
+        </>
+      )}
+      {successPopup &&  (
+        <>
+          <Popup show={successPopup} onHide={successPopupFunction}>
+            {isSuccessRequired}
+          </Popup>
+          {setTimeout(successPopupFunction, 4000)}
+        </>
+      )}
     </Form>
   );
 };

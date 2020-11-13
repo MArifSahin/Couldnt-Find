@@ -16,7 +16,7 @@ const success = {
     '200':'The password was changed'
   },
   'user/edit': {
-    '200': 'User update success.'
+    '200': 'User info updated successfully'
   },
   'auth/send-email': {
     '200': 'Aktivasyon kodunuz gönderildi.'
