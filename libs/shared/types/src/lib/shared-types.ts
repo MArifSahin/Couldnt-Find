@@ -55,5 +55,9 @@ export interface BecomeEditorRequest {
   education: string;
   favBook: string;
   favMovie: string;
+}
 
+export interface WriteUserReviewRequest {
+  reviewText: string;
+  userScore: number;
 }
