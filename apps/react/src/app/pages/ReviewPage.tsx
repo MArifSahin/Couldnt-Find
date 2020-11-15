@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Badge, Card, Col, Container, Form, Image, Media, Row } from 'react-bootstrap';
+import { Badge, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { isNullOrUndefined } from 'util';
 import { Button } from '@internship/ui';
 import { useTemporary } from '@internship/shared/hooks';
+import { writeUserReviewAsync } from '../../../../../libs/store/content/src/lib';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -45,6 +46,8 @@ const StyledContainer = styled(Container)`
 `;
 
 export const ReviewPage = (props) => {
+  const { handleSubmit, register } = useForm();
+  const dispatch = useDispatch();
   const history = useHistory();
   const [value, setValue] = useState(0);
   const { isErrorRequired, isSuccessRequired } = useTemporary();
@@ -54,6 +57,10 @@ export const ReviewPage = (props) => {
     return null;
   }
   const book = props.location.data.book;
+
+  const onSubmit = (values) => {
+    dispatch(writeUserReviewAsync.request(values));
+  };
 
   //TODO hard coded
   return (
@@ -96,20 +103,27 @@ export const ReviewPage = (props) => {
               <h2>User Reviews</h2><br />
             </StyledRow>
             <Card bg='secondary' border='danger'>
-              <Form>
-                <Form.Group controlId="writeReview">
-                  <Col>
-                    <Form.Label>Give your score!</Form.Label>
-                  </Col>
-                  <Col>
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <Col>
+                  <Form.Label>Give your score!</Form.Label>
+                </Col>
+                <Col>
+                  <Form.Group controlId="userScore">
                     <RangeSlider
+                      ref={register({ required: true })}
                       value={value}
                       onChange={changeEvent => setValue(changeEvent.target.value)}
                       step={5}
                       variant='info'
                     />
-                  </Col>
-                  <Form.Control as="textarea" rows={5} placeholder="Write your review here." />
+                  </Form.Group>
+                </Col>
+                <Form.Group controlId="reviewText">
+                  <Form.Control
+                    ref={register({ required: true })}
+                    as="textarea"
+                    rows={5}
+                    placeholder="Write your review here." />
                 </Form.Group>
                 <Row className="justify-content-center">
                   <Button type="submit">
