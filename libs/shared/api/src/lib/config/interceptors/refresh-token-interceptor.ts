@@ -4,7 +4,7 @@ import axiosStatic, { AxiosError, AxiosInstance } from 'axios';
 export const refreshTokenInterceptor = (error: AxiosError, axios: AxiosInstance = axiosStatic) => {
   if (error.response.status === 401 && error.response.data?.error.toString() === 'JWT Expired.') {
     return new Promise((resolve) => {
-      axios.get('http://localhost:8080/api/auth/refresh-token', {
+      axios.get('https://book-review-backend.herokuapp.com/api/auth/refresh-token', {
         params: { token: getRefreshToken() }
       })
         .then(function(response) {

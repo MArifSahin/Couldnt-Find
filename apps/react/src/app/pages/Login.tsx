@@ -122,7 +122,7 @@ export const Login = () => {
           <div className="mb-3 mt-3">
             <StyledAnchorTag
               className="btn btn-outline-dark alert-dismissible"
-              href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:4200/auth"
+              href="https://book-review-backend.herokuapp.com/oauth2/authorize/google?redirect_uri=https://book-review-backend.herokuapp.com/auth"
             >
               <FontAwesomeIcon icon={faGoogle} style={{ marginRight: '10px' }} /> Log in with google
             </StyledAnchorTag>

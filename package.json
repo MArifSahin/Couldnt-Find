@@ -102,5 +102,6 @@
     "typesafe-actions": "^5.1.0",
     "typescript": "~3.9.3",
     "url-loader": "^3.0.0"
-  }
+  },
+  "proxy": "https://book-review-backend.herokuapp.com"
 }

@@ -10,7 +10,7 @@ import {
 } from './interceptors';
 
 
-const baseUrl = 'http://localhost:8080';
+const baseUrl = 'https://book-review-backend.herokuapp.com';
 
 const defaultConfig: AxiosRequestConfig = {
   baseURL: `${baseUrl}/api/`,
