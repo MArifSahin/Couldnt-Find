@@ -61,3 +61,15 @@ export interface WriteUserReviewRequest {
   reviewText: string;
   userScore: number;
 }
+
+export interface WriteEditorReviewRequest {
+  reviewText: string;
+  editorScore: number;
+  drama: number;
+  comedy: number;
+  romance: number;
+  action: number;
+  adventure: number;
+  horror: number;
+  thriller: number;
+}

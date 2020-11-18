@@ -76,8 +76,6 @@ function* doRegister({ payload }) {
 
 function* doUpdate({ payload }) {
   try {
-   /* let requestData = {};
-    Object.entries(payload).forEach(([key, value]) => (value !== '' ? (requestData = { ...requestData, [key]: value }) : null));*/
     yield call(api.auth.update, payload);
     yield put(updateAsync.success({}));
   } catch (e) {
