@@ -47,8 +47,8 @@ export const Book = () => {
         <Container>
           <Row>
             <Col>
-              <h1>There is book page</h1>
-              <p>There is a paragraph that describes site</p>
+              <h1>This is a book page</h1>
+              <p>This is a paragraph that describes book page</p>
             </Col>
           </Row>
           <Search whichPage='book' setSearchResults={setSearchResults} setSearchedItem={setSearchedItem} />

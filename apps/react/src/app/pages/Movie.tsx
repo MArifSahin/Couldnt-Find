@@ -42,8 +42,8 @@ export const Movie = () => {
         <Container>
           <Row>
             <Col>
-              <h1>There is movie page</h1>
-              <p>There is a paragraph that describes site</p>
+              <h1>This is a movie page</h1>
+              <p>This is a paragraph that describes movie page</p>
             </Col>
           </Row>
           <Search whichPage='movie' setSearchResults={setSearchResults} setSearchedItem={setSearchedItem}/>
@@ -58,7 +58,7 @@ export const Movie = () => {
             <StyledCard>
               <h3>Find movie of your mood</h3>
             </StyledCard>
-          </Col>
+          </Col>refre
         </StyledRow>
         <StyledRow>
           <h2>Last Reviewed Movies</h2>

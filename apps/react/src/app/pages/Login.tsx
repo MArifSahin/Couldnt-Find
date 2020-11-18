@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useHistory } from 'react-router-dom';
 
+
 const StyledAnchorTag = styled.a`
   font-weight: 400;
   font-size: 16px;
