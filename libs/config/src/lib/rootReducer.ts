@@ -5,6 +5,7 @@ import { all, fork } from 'redux-saga/effects';
 import { tempReducer } from '@internship/store/temp';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
+import { contentSaga } from '../../../store/content/src/lib';
 
 const AuthenticationPersistConfig = {
   key: 'authentication',
@@ -21,4 +22,5 @@ export type RootState = StateType<typeof rootReducer>;
 
 export function* rootSaga(): Generator {
   yield all([fork(authenticationSaga)]);
+  yield all([fork(contentSaga)]);
 }

@@ -40,8 +40,8 @@ export const MainPage = () => {
         <Container>
           <Row>
             <Col>
-              <h1>There is home page</h1>
-              <p>There is a paragraph that describes site</p>
+              <h1>This is a home page</h1>
+              <p>This is a paragraph that describes site</p>
             </Col>
           </Row>
         </Container>
