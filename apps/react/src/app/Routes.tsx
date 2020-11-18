@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import {
   ForgotPasswordPage,
   Login, MailErrorPage,
@@ -11,7 +11,7 @@ import {
   ResetPassword,
   Book,
   Movie,
-  ReviewPage, BecomeAnEditor
+  BookReviewPage, BecomeAnEditor
 } from './pages';
 
 export const Routes = ({ children, ...props }) => {
@@ -29,7 +29,7 @@ export const Routes = ({ children, ...props }) => {
       <Route exact path="/mailerror" component={MailErrorPage} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      <Route path="/reviewPage" component={ReviewPage} />
+      <Route path="/reviewPage" component={BookReviewPage} />
       <Route path="/becomeAnEditor" component={BecomeAnEditor} />
     </Router>
   );

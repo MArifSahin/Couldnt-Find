@@ -8,7 +8,7 @@ export * from './Register';
 export * from './MailActivation';
 export * from './Book';
 export * from './Movie';
-export * from './ReviewPage';
+export * from './BookReviewPage';
 export * from './ForgotPassword';
 export * from './BecomeAnEditor';
 

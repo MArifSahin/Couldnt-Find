@@ -19,6 +19,7 @@
       "@internship/shared/hooks": ["libs/shared/hooks/src/index.ts"],
       "@internship/ui": ["libs/ui/src/index.ts"],
       "@internship/store/authentication": ["libs/store/authentication/src/index.ts"],
+      "@internship/store/content": ["libs/store/content/src/index.ts"],
       "@internship/config": ["libs/config/src/index.ts"],
       "@internship/shared/api": ["libs/shared/api/src/index.ts"],
       "@internship/shared/types": ["libs/shared/types/src/index.ts"],
