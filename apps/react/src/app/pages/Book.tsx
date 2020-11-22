@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Jumbotron, Row, Col, Card, Image, Figure, Media, Badge } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Jumbotron, Row, Col, Card, Image, Figure, Media, Badge, Spinner, ListGroup } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Button, Search } from '@internship/ui';
 import { Link } from 'react-router-dom';
 import { button } from '@storybook/addon-knobs';
+import { api, HighestReviewedBookInfoResponse, LatestReviewedBookInfoResponse } from '@internship/shared/api';
 
 
 const StyledApp = styled.div`
-  font-family: sans-serif;
+  font-family: Georgia, serif;
   text-align: center;
 `;
 
@@ -40,6 +41,34 @@ const StyledCard = styled(Card)`
 export const Book = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [book, setSearchedItem] = useState('');
+  const [latestReviewedBooks, setLatestReviewedBooks] = useState<LatestReviewedBookInfoResponse>(null);
+  const [latestReviewedBooksLoaded, setLatestReviewedBooksLoaded] = useState(false);
+
+  useEffect(() => {
+    api.book
+      .getLatestReviews()
+      .then((response) => {
+          setLatestReviewedBooks(response);
+          setLatestReviewedBooksLoaded(true);
+        }
+      ).catch((e) => console.error(e));
+
+  }, []);
+
+  let showLatestReviewedBook = <Spinner animation="border"></Spinner>;
+
+  if (latestReviewedBooksLoaded) {
+    console.log(latestReviewedBooks);
+    showLatestReviewedBook = <ListGroup>{Object.keys(latestReviewedBooks).map((d, key) => (
+      <ListGroup.Item variant='danger' key={key} className="ml-4">
+        <h4><b>{d}</b></h4>
+        Editor Score:<Badge variant="info">{latestReviewedBooks[d].editorScore}</Badge>
+        User Score:<Badge variant="info">{latestReviewedBooks[d].userScore}</Badge>
+        <p>{latestReviewedBooks[d].editorReview}</p>
+        <footer>{latestReviewedBooks[d].editor}</footer>
+      </ListGroup.Item>
+    ))}</ListGroup>;
+  }
 
   return (
     <StyledApp>
@@ -56,13 +85,13 @@ export const Book = () => {
             <>
               <Row>
                 <Media>
-                  <Image className="d-flex mr-3 img-thumbnail align-self-center" src={book.volumeInfo?.imageLinks?.thumbnail} alt={book.title} />
+                  <Image className="d-flex mr-3 img-thumbnail align-self-center"
+                         src={book.volumeInfo?.imageLinks?.thumbnail} alt={book.title} />
                   <Media.Body>
                     <header className="d-flex mr-3 align-self-center">{book.volumeInfo?.title}</header>
-                    <i>Author: {book.volumeInfo?.authors}</i><br/>
-                    <i>Editor Score: <Badge variant="info">90</Badge></i><br/>
-                    <i>User Score: <Badge variant="info">80</Badge></i><br/>
-                    <i><Link to={{ pathname: "/reviewPage", data:{book}}} type="button">Click to see the reviews</Link></i>
+                    <i>Author: {book.volumeInfo?.authors}</i><br />
+                    <i><Link to={{ pathname: '/reviewPage', data: { book } }} type="button">Click to see the
+                      reviews</Link></i>
                   </Media.Body>
                 </Media>
               </Row>
@@ -81,7 +110,10 @@ export const Book = () => {
           </Col>
         </StyledRow>
         <StyledRow>
-          <h2>Last Reviewed Books</h2>
+          <Container>
+            <h3>Latest Reviewed Books</h3>
+            <StyledRow>{showLatestReviewedBook}</StyledRow>
+          </Container>
         </StyledRow>
       </Container>
 

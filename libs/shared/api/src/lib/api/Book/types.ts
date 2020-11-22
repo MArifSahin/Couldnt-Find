@@ -15,3 +15,10 @@ export interface HighestReviewedBookInfoResponse {
   reviewNumber: number;
   bookName: string;
 }
+
+export interface LatestReviewedBookInfoResponse {
+  editorScore: number;
+  userScore: number;
+  editorReview: string;
+  editor: string;
+}
