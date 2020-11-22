@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { FaUserAlt } from 'react-icons/all';
-import { useAuthentication } from '@internship/shared/hooks';
+import { useAuthentication, useGetRole } from '@internship/shared/hooks';
 import { logoutAsync } from '@internship/store/authentication';
 import { useDispatch } from 'react-redux';
 import { Popup, PopupButton, Search } from '../../molecules';
@@ -13,12 +13,12 @@ import { Button } from '../../atoms/Button';
 
 export const Navigation = () => {
   const { isAuthenticated } = useAuthentication();
+  const { role } = useGetRole();
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
   const handleClose = () => {
@@ -90,9 +90,13 @@ export const Navigation = () => {
         </Nav>
         {isAuthenticated ? (
           <>
-            <NavLink to="/becomeAnEditor">
-              <Button variant="outline-primary">Do you want to become an editor?</Button>
-            </NavLink>
+            {role === 'ROLE_EDITOR' ? null : (
+              <>
+                <NavLink to="/becomeAnEditor">
+                  <Button variant="outline-primary">Do you want to become an editor?</Button>
+                </NavLink>
+              </>
+            )}
             <NavDropdown className="nav-link float-right" title={<FaUserAlt />} id="basic-nav-dropdown">
               <NavLink
                 className="dropdown-item"
