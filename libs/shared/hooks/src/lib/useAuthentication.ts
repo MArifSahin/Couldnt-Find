@@ -6,3 +6,10 @@ export function useAuthentication() {
     isAuthenticated,
   };
 }
+
+export function useGetRole() {
+  const role = window.localStorage.getItem('role');
+  return {
+    role,
+  };
+}

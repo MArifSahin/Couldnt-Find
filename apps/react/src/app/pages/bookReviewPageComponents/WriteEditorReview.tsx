@@ -21,27 +21,24 @@ export const WriteEditorReview = (props) => {
   const [userScore, setUserScore] = useState(0);
   const { isErrorRequired, isSuccessRequired } = useTemporary();
   const [editorScore, setEditorScore] = useState(0);
-  const [drama, setDrama] = useState(0);
-  const [fun, setFun] = useState(0);
-  const [action, setAction] = useState(0);
-  const [adventure, setAdventure] = useState(0);
-  const [romance, setRomance] = useState(0);
-  const [thriller, setThriller] = useState(0);
-  const [horror, setHorror] = useState(0);
-  const [modes, setModes] = useState([]);
+  const modes = {
+    drama:0,
+    fun:0,
+    action:0,
+    adventure:0,
+    romance:0,
+    thriller:0,
+    horror:0
+  }
 
   const book = props.book;
   const onSubmit = (values) => {
-    values.editorScore = editorScore;
-    values.drama = drama;
-    values.action = action;
-    values.adventure = adventure;
-    values.romance = romance;
-    values.horror = horror;
-    values.thriller = thriller;
+    values.modes=modes;
     values.bookId = book.id;
     values.bookName = book.volumeInfo.title;
+    values.editorScore=editorScore;
     console.log(values);
+    //TODO make this request async
     // dispatch(writeEditorReviewAsync.request(values));
     api.book
       .writeEditorReview(values)
@@ -66,49 +63,49 @@ export const WriteEditorReview = (props) => {
             <Col>
               <i>Drama: </i>
               <RangeSlider name="dramaScore" ref={register({ required: true })}
-                           onChange={changeEvent => setDrama(changeEvent.target.value)} step={20} variant='danger' />
+                           onChange={changeEvent => modes.drama=changeEvent.target.value} step={20} variant='danger' />
             </Col>
           </Row>
           <Row>
             <Col>
               <i>Fun: </i>
               <RangeSlider name="funScore" ref={register({ required: true })}
-                           onChange={changeEvent => setFun(changeEvent.target.value)} step={20} variant='danger' />
+                           onChange={changeEvent => modes.fun=changeEvent.target.value} step={20} variant='danger' />
             </Col>
           </Row>
           <Row>
             <Col>
               <i>Action: </i>
               <RangeSlider name="actionScore" ref={register({ required: true })}
-                           onChange={changeEvent => setAction(changeEvent.target.value)} step={20} variant='danger' />
+                           onChange={changeEvent => modes.action=changeEvent.target.value} step={20} variant='danger' />
             </Col>
           </Row>
           <Row>
             <Col>
               <i>Adventure: </i>
               <RangeSlider name="adventureScore" ref={register({ required: true })}
-                           onChange={changeEvent => setAdventure(changeEvent.target.value)} step={20} variant='danger' />
+                           onChange={changeEvent => modes.adventure=changeEvent.target.value} step={20} variant='danger' />
             </Col>
           </Row>
           <Row>
             <Col>
               <i>Romance: </i>
               <RangeSlider name="romanceScore" ref={register({ required: true })}
-                           onChange={changeEvent => setRomance(changeEvent.target.value)} step={20} variant='danger' />
+                           onChange={changeEvent => modes.romance=changeEvent.target.value} step={20} variant='danger' />
             </Col>
           </Row>
           <Row>
             <Col>
               <i>Horror: </i>
               <RangeSlider name="horrorScore" ref={register({ required: true })}
-                           onChange={changeEvent => setHorror(changeEvent.target.value)} step={20} variant='danger' />
+                           onChange={changeEvent => modes.horror=changeEvent.target.value} step={20} variant='danger' />
             </Col>
           </Row>
           <Row>
             <Col>
               <i>Thriller: </i>
               <RangeSlider name="thrillerScore" ref={register({ required: true })}
-                           onChange={changeEvent => setThriller(changeEvent.target.value)} step={20} variant='danger' />
+                           onChange={changeEvent => modes.thriller=changeEvent.target.value} step={20} variant='danger' />
             </Col>
           </Row>
         </Form.Group>

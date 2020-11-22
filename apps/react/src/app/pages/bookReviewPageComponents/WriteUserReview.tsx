@@ -26,6 +26,8 @@ export const WriteUserReview = (props) => {
     values.userScore = userScore;
     values.bookId = book.id;
     values.bookName = book.volumeInfo.title;
+    //TODO make this request async
+    // dispatch(writeUserReviewAsync.request(values));
     api.book
       .writeUserReview(values)
       .catch((e) => console.error(e));

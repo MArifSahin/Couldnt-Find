@@ -1,7 +1,11 @@
-import React from 'react';
-import { Jumbotron, Row, ModalFooter, Col, Card } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Jumbotron, Row, Col, Card, Spinner, ListGroup } from 'react-bootstrap';
 import styled from 'styled-components';
-import { Search } from '@internship/ui';
+import {
+  api,
+  HighestRatedBookInfoResponse,
+  HighestReviewedBookInfoResponse,
+} from '@internship/shared/api';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -34,6 +38,51 @@ const StyledCard = styled(Card)`
 
 
 export const MainPage = () => {
+  const [highestRatedBooks, setHighestRatedBooks] = useState<HighestRatedBookInfoResponse[]>();
+  const [highestReviewedBooks, setHighestReviewedBooks] = useState<HighestReviewedBookInfoResponse[]>();
+  const [highestRatedBooksLoaded, setHighestRatedBooksLoaded] = useState(false);
+  const [highestReviewedBooksLoaded, setHighestReviewedBooksLoaded] = useState(false);
+
+  useEffect(() => {
+    api.book
+      .getHighestRatedBooks()
+      .then((response) => {
+          setHighestRatedBooks(response);
+          setHighestRatedBooksLoaded(true);
+        }
+      ).catch((e) => console.error(e));
+
+    api.book
+      .getHighestReviewedBooks()
+      .then((response) => {
+          setHighestReviewedBooks(response);
+          setHighestReviewedBooksLoaded(true);
+        }
+      ).catch((e) => console.error(e));
+
+  }, []);
+
+  let showHighestRatedBook=<Spinner animation="border"></Spinner>;
+  let showHighestReviewedBook=<Spinner animation="border"></Spinner>;
+
+  if (highestRatedBooksLoaded) {
+    showHighestRatedBook=<ListGroup>{Object.keys(highestRatedBooks).map((d, key) => (
+          <ListGroup.Item variant='danger' key={key} className="ml-4">
+            <i><b>{d} : </b></i>
+            <i>{highestRatedBooks[d]}</i>
+          </ListGroup.Item>
+        ))}</ListGroup>
+  }
+
+  if (highestReviewedBooksLoaded) {
+    showHighestReviewedBook=<ListGroup>{Object.keys(highestReviewedBooks).map((d, key) => (
+      <ListGroup.Item variant='danger' key={key} className="ml-4">
+        <i><b>{d} : </b></i>
+        <i>{highestReviewedBooks[d]}</i>
+      </ListGroup.Item>
+    ))}</ListGroup>
+  }
+
   return (
     <StyledApp>
       <StyledJumbotron>
@@ -49,20 +98,28 @@ export const MainPage = () => {
       </StyledJumbotron>
       <Container>
         <StyledRow>
-          <h2>Last Reviewed Books</h2>
-        </StyledRow>
-        <StyledRow>
-          <h2>Last Reviewed Movies</h2>
-        </StyledRow>
-        <StyledRow>
           <Col>
             <StyledCard>
-              <h3>Most Liked Books</h3>
+              <h3>Highest Rated Books</h3>
+              <StyledRow>{showHighestRatedBook}</StyledRow>
             </StyledCard>
-            </Col>
+          </Col>
+          <Col>
+            <StyledCard>
+              <h3>Most Reviewed Books</h3>
+              <StyledRow>{showHighestReviewedBook}</StyledRow>
+            </StyledCard>
+          </Col>
+        </StyledRow>
+        <StyledRow>
           <Col>
             <StyledCard>
               <h3>Most Liked Movies</h3>
+            </StyledCard>
+          </Col>
+          <Col>
+            <StyledCard>
+              <h3>Most Reviewed Movies</h3>
             </StyledCard>
           </Col>
         </StyledRow>

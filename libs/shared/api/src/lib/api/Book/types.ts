@@ -5,3 +5,13 @@ export interface BookDetailResponse {
   reviews: string[];
   reviewNumber: number;
 }
+
+export interface HighestRatedBookInfoResponse {
+  editorScore: number;
+  bookName: string;
+}
+
+export interface HighestReviewedBookInfoResponse {
+  reviewNumber: number;
+  bookName: string;
+}
