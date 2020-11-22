@@ -5,7 +5,7 @@ import { all, fork } from 'redux-saga/effects';
 import { tempReducer } from '@internship/store/temp';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
-import { contentSaga } from '../../../store/content/src/lib';
+import { contentSaga } from '@internship/store/content';
 
 const AuthenticationPersistConfig = {
   key: 'authentication',
