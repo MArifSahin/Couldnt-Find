@@ -60,14 +60,12 @@ export const BookReviewPage = (props) => {
   }
   const book = props.location.data.book;
   useEffect(() => {
-    console.log('BOOK ID: '+book.id);
     api.book
       .getBookContent(book.id)
       .then((r) => setBookContent(r))
       .catch((e) => console.error(e));
   });
 
-  console.log(bookContent);
 
   //TODO hard coded
   return (

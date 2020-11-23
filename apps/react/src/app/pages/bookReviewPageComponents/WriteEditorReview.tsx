@@ -37,7 +37,7 @@ export const WriteEditorReview = (props) => {
     values.bookId = book.id;
     values.bookName = book.volumeInfo.title;
     values.editorScore = editorScore;
-    console.log(values);
+
     //TODO make this request async
     // dispatch(writeEditorReviewAsync.request(values));
     api.book

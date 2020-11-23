@@ -23,7 +23,6 @@ export const BecomeAnEditor = () => {
   const { isErrorRequired, isSuccessRequired } = useTemporary();
 
   const onSubmit = (values) => {
-    console.log(values);
     dispatch(becomeEditorAsync.request(values));
   };
   const onChange = () => {

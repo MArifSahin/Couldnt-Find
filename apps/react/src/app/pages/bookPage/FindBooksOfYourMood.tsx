@@ -31,7 +31,6 @@ export const FindBooksOfYourMood = () => {
   const onSubmit = (values) => {
     showBooks = <Spinner animation="border" />;
     values = moods;
-    console.log(values);
     //TODO make this request async
     api.book
       .getBooksOfYourMood(values)

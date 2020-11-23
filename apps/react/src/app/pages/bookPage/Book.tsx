@@ -58,7 +58,6 @@ export const Book = () => {
   let showLatestReviewedBook = <Spinner animation="border"/>;
 
   if (latestReviewedBooksLoaded) {
-    console.log(latestReviewedBooks);
     showLatestReviewedBook = <ListGroup>{Object.keys(latestReviewedBooks).map((d, key) => (
       <ListGroup.Item variant='danger' key={key} className="ml-4">
         <h4><b>{d}</b></h4>
