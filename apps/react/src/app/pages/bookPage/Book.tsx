@@ -3,8 +3,8 @@ import { Jumbotron, Row, Col, Card, Image, Figure, Media, Badge, Spinner, ListGr
 import styled from 'styled-components';
 import { Button, Search } from '@internship/ui';
 import { Link } from 'react-router-dom';
-import { button } from '@storybook/addon-knobs';
-import { api, HighestReviewedBookInfoResponse, LatestReviewedBookInfoResponse } from '@internship/shared/api';
+import { api, LatestReviewedBookInfoResponse } from '@internship/shared/api';
+import { FindBooksOfYourMood } from './FindBooksOfYourMood';
 
 
 const StyledApp = styled.div`
@@ -55,7 +55,7 @@ export const Book = () => {
 
   }, []);
 
-  let showLatestReviewedBook = <Spinner animation="border"></Spinner>;
+  let showLatestReviewedBook = <Spinner animation="border"/>;
 
   if (latestReviewedBooksLoaded) {
     console.log(latestReviewedBooks);
@@ -105,7 +105,8 @@ export const Book = () => {
         <StyledRow>
           <Col>
             <StyledCard>
-              <h3>Find book of your mood</h3>
+              <h3>Find books of your mood</h3>
+              <FindBooksOfYourMood/>
             </StyledCard>
           </Col>
         </StyledRow>
@@ -116,8 +117,6 @@ export const Book = () => {
           </Container>
         </StyledRow>
       </Container>
-
     </StyledApp>
-
   );
 };

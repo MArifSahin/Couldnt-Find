@@ -1,7 +1,7 @@
 export interface BookDetailResponse {
   editorScore: number;
   userScore: number;
-  modes: number[];
+  moods: number[];
   reviews: string[];
   reviewNumber: number;
 }
@@ -21,4 +21,11 @@ export interface LatestReviewedBookInfoResponse {
   userScore: number;
   editorReview: string;
   editor: string;
+}
+
+export interface BooksOfYourMoodInfoResponse {
+  bookId: string;
+  bookName: string;
+  editorScore: number;
+  userScore: number;
 }

@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
-import { Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Badge, Card, Col, Container, Form, ListGroup, Row, Spinner } from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Button } from '@internship/ui';
-import { useTemporary } from '@internship/shared/hooks';
-import { writeEditorReviewAsync, writeUserReviewAsync } from '@internship/store/content';
 import styled from 'styled-components';
-import { api } from '@internship/shared/api';
+import { api, BooksOfYourMoodInfoResponse, HighestRatedBookInfoResponse } from '@internship/shared/api';
 
-const StyledContainer = styled(Container)`
-  fluid:md;
-  display: inline-block;
-  padding: 1rem;
+
+const StyledApp = styled.div`
+  font-family: Georgia, serif;
+  text-align: center;
 `;
 
-export const WriteEditorReview = (props) => {
+
+export const FindBooksOfYourMood = () => {
+  const [books, setBooks] = useState<BooksOfYourMoodInfoResponse[]>();
+  const [booksLoaded, setBooksLoaded] = useState(false);
   const { handleSubmit, register } = useForm();
-  const dispatch = useDispatch();
-  const [userScore, setUserScore] = useState(0);
-  const { isErrorRequired, isSuccessRequired } = useTemporary();
-  const [editorScore, setEditorScore] = useState(0);
   const [moods, setMoods] = useState({
     drama: 0,
     fun: 0,
@@ -31,34 +27,35 @@ export const WriteEditorReview = (props) => {
     horror: 0
   });
 
-  const book = props.book;
+  let showBooks = <span />;
   const onSubmit = (values) => {
-    values.moods = moods;
-    values.bookId = book.id;
-    values.bookName = book.volumeInfo.title;
-    values.editorScore = editorScore;
+    showBooks = <Spinner animation="border" />;
+    values = moods;
     console.log(values);
     //TODO make this request async
-    // dispatch(writeEditorReviewAsync.request(values));
     api.book
-      .writeEditorReview(values)
-      .catch((e) => console.error(e));
+      .getBooksOfYourMood(values)
+      .then((response) => {
+          setBooks(response);
+          setBooksLoaded(true)
+        }
+      ).catch((e) => console.error(e));
   };
-
+  if (booksLoaded) {
+    showBooks = <ListGroup>{books.map(book => (
+      <ListGroup.Item variant='danger' key={book.bookName} className="ml-4">
+        <h4><b>{book.bookName}</b></h4>
+        {/*Editor Score:<Badge variant="info">{d}</Badge>*/}
+        {/*User Score:<Badge variant="info">{books}</Badge>*/}
+      </ListGroup.Item>
+    ))}</ListGroup>;
+  }
   return (
-    <StyledContainer>
+    <StyledApp>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Form.Group controlId="editorScore">
+        <Form.Group controlId="findBooksOfYourMood">
           <Form.Label>
-            <b>Editor Score</b>
-          </Form.Label>
-          <Col>
-            <RangeSlider name="editorScore" tooltip='on' ref={register({ required: true })} Label='Editor Score'
-                         value={editorScore}
-                         onChange={changeEvent => setEditorScore(changeEvent.target.value)} step={5} variant='danger' />
-          </Col>
-          <Form.Label>
-            <b>Book moods</b>
+            Please select below the levels you want to experience while reading
           </Form.Label>
           <Row>
             <Col>
@@ -116,20 +113,13 @@ export const WriteEditorReview = (props) => {
             </Col>
           </Row>
         </Form.Group>
-        <Form.Group controlId="reviewText">
-          <Form.Control
-            name="reviewText"
-            ref={register({ required: true })}
-            as="textarea"
-            rows={20}
-            placeholder="Write your editor review here." />
-        </Form.Group>
         <Row className="justify-content-center">
-          <Button type="submit" value="writeEditorReview">
+          <Button type="submit" value="findBooksOfYourMood">
             Submit
           </Button>
         </Row>
       </Form>
-    </StyledContainer>
+      {showBooks}
+    </StyledApp>
   );
 };

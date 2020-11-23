@@ -6,7 +6,7 @@ export * from './OAuth2RedirectHandler';
 export * from './Profile';
 export * from './Register';
 export * from './mailActivation';
-export * from './Book';
+export * from './bookPage/Book';
 export * from './Movie';
 export * from './bookReviewPageComponents/BookReviewPage';
 export * from './forgotPassword';
