@@ -2,6 +2,7 @@ export const ACCESS_TOKEN = 'access_token';
 export const REFRESH_TOKEN = 'refresh_token';
 export const CAPTCHA_TOKEN = 'captcha_token';
 export const ROLE = 'role';
+export const API_KEY = 'AIzaSyAek9Dpobv9VE_iEPovlbBY3e4yF35lMR8';
 
 export interface LoginRequest {
   username: string;

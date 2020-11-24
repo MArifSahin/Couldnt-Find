@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { API_KEY } from '@internship/shared/types';
 
 type SearchProps = {
   whichPage;
@@ -14,7 +15,7 @@ type SearchProps = {
 
 export const Search : React.FC<SearchProps> = ({ whichPage, setSearchResults, setSearchedItem }) => {
   const [book, setBook]= useState("");
-  const [apiKey, setApiKey] = useState("AIzaSyAek9Dpobv9VE_iEPovlbBY3e4yF35lMR8")
+  const [apiKey, setApiKey] = useState(API_KEY);
   const placeholder='Search ' + whichPage.toString();
   const { handleSubmit, register } = useForm();
   const onSubmit = () => {
