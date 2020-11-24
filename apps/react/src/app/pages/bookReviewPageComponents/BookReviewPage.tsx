@@ -55,7 +55,7 @@ export const BookReviewPage = (props) => {
     history.push('/book');
     return null;
   }
-  props.location.data ? book = props.location.data.book : book= props.location.state.data;
+  props.location.data ? book = props.location.data.book : book = props.location.state.data;
 
   useEffect(() => {
     api.book
@@ -66,6 +66,16 @@ export const BookReviewPage = (props) => {
       })
       .catch((e) => console.error(e));
   }, []);
+
+  let showWriteEditorReview = <span>-</span>;
+  if (role === 'ROLE_EDITOR') {
+    showWriteEditorReview = <WriteEditorReview book={book} />;
+  }
+
+  let showWriteUserReview = <span>-</span>;
+  if (role === 'ROLE_USER') {
+    showWriteUserReview = <WriteUserReview book={book} />;
+  }
 
   return (
     <StyledApp>
@@ -108,7 +118,7 @@ export const BookReviewPage = (props) => {
                     </footer>
                   </>
                 ) : (
-                  (role.valueOf()==="ROLE_EDITOR") ? (<WriteEditorReview book={book} />) : null
+                  showWriteEditorReview
                 )}
               </Col>
             </StyledRowContent>
@@ -116,15 +126,15 @@ export const BookReviewPage = (props) => {
               <StyledContainer>
                 <StyledRow>
                   <h2>User Reviews</h2><br />
-                  {(role.valueOf()==="ROLE_USER") ? (<WriteUserReview book={book} />) : null}
+                  {(role === 'ROLE_USER') ? (<WriteUserReview book={book} />) : null}
                   <ListGroup>{Object.keys(bookContent.userReviews).map((d, key) => (
-                      <ListGroup.Item variant='success' key={key} className="ml-4">
-                        <p>{bookContent.userReviews[d]}</p>
-                        <footer className="blockquote-footer float-right">
-                          {d}
-                        </footer>
-                      </ListGroup.Item>
-                    ))}</ListGroup>
+                    <ListGroup.Item variant='success' key={key} className="ml-4">
+                      <p>{bookContent.userReviews[d]}</p>
+                      <footer className="blockquote-footer float-right">
+                        {d}
+                      </footer>
+                    </ListGroup.Item>
+                  ))}</ListGroup>
                 </StyledRow>
 
               </StyledContainer>
@@ -161,14 +171,14 @@ export const BookReviewPage = (props) => {
               </Col>
               <Col>
                 <h1>Editor Review</h1><br />
-                <WriteEditorReview book={book} />
+                {showWriteEditorReview}
               </Col>
             </StyledRowContent>
             <StyledRowUserReviews>
               <StyledContainer>
                 <StyledRow>
                   <h2>User Reviews</h2><br />
-                  <WriteUserReview book={book} />
+                  {showWriteUserReview}
                 </StyledRow>
 
               </StyledContainer>
