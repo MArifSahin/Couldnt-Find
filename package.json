@@ -6,7 +6,7 @@
     "nx": "nx",
     "start": "nx serve",
     "storybook": "nx run ui:storybook",
-    "build": "nx build",
+    "build": "nx build --prod",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
