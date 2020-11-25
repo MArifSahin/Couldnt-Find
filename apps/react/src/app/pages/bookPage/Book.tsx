@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { api, LatestReviewedBookInfoResponse } from '@internship/shared/api';
 import { FindBooksOfYourMood } from './FindBooksOfYourMood';
 import { Link, useHistory } from 'react-router-dom';
-import  { Redirect } from 'react-router-dom'
 import axios from 'axios';
 import { Search } from '@internship/ui';
 import { API_KEY } from '@internship/shared/types';
@@ -38,7 +37,7 @@ const Container = styled.div`
 
 const StyledCard = styled(Card)`
   min-height: 400px;
-  background: gray;
+  background: #4F6D65;
 `;
 
 
@@ -64,21 +63,23 @@ export const Book = () => {
   let showLatestReviewedBook = <Spinner animation="border" />;
 
   const onClick = (bookName) => {
-
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookName}
       &key=${apiKey}&maxResults=1&orderBy=relevance&printType=books&projection=lite`)
       .then(data => {
         console.log(data.data.items);
-        {data.data.items.map(book => (
-          history.push('/reviewPage',{data:book})
-        ))}
-      })
+        {
+          data.data.items.map(book => (
+            history.push('/reviewPage', { data: book })
+          ));
+        }
+      });
   };
 
   if (latestReviewedBooksLoaded) {
     showLatestReviewedBook = <ListGroup>{Object.keys(latestReviewedBooks).map((d, key) => (
       <ListGroup.Item variant='secondary' key={key} className="ml-4">
-        <h4><b>{d}</b><Button className="float-right" onClick={() => onClick(d)} variant="outline-success">see full review</Button></h4>
+        <h4><b>{d}</b><Button className="float-right" onClick={() => onClick(d)} variant="outline-success">see full
+          review</Button></h4>
         Editor Score:<Badge variant="info">{latestReviewedBooks[d].editorScore}</Badge>
         User Score:<Badge variant="info">{latestReviewedBooks[d].userScore}</Badge>
         <ShowMoreText
@@ -102,40 +103,44 @@ export const Book = () => {
         <Container>
           <Row>
             <Col>
-              <h1>BOOK</h1>
-              <p>What is your mood's book?<br/>Book reviews and more...</p>
+              <Row>
+                <Col>
+                  <h1>BOOK</h1>
+                  <p>What is your mood's book?<br />Book reviews and more...</p>
+                  <Container>
+                    <Search whichPage='book' setSearchResults={setSearchResults} setSearchedItem={setSearchedItem} />
+                    {searchResults.map(book => (
+                      <>
+                        <Row>
+                          <Media>
+                            <Image className="d-flex mr-3 img-thumbnail align-self-center"
+                                   src={book.volumeInfo?.imageLinks?.thumbnail} alt={book.title} />
+                            <Media.Body>
+                              <header className="d-flex mr-3 align-self-center">{book.volumeInfo?.title}</header>
+                              <i>Author: {book.volumeInfo?.authors}</i><br />
+                              <i><Link to={{ pathname: '/reviewPage', state: { data: book } }} type="button">Click to
+                                see the
+                                reviews</Link></i>
+                            </Media.Body>
+                          </Media>
+                        </Row>
+                      </>
+                    ))}
+                  </Container>
+                </Col>
+              </Row>
+            </Col>
+            <Col>
+              <StyledCard>
+                <h3>Find books of your mood</h3>
+                <FindBooksOfYourMood />
+              </StyledCard>
             </Col>
           </Row>
-          <Search whichPage='book' setSearchResults={setSearchResults} setSearchedItem={setSearchedItem} />
-          {searchResults.map(book => (
-            <>
-              <Row>
-                <Media>
-                  <Image className="d-flex mr-3 img-thumbnail align-self-center"
-                         src={book.volumeInfo?.imageLinks?.thumbnail} alt={book.title} />
-                  <Media.Body>
-                    <header className="d-flex mr-3 align-self-center">{book.volumeInfo?.title}</header>
-                    <i>Author: {book.volumeInfo?.authors}</i><br />
-                    <i><Link to={{ pathname: '/reviewPage', state: { data: book } }} type="button">Click to see the
-                      reviews</Link></i>
-                  </Media.Body>
-                </Media>
-              </Row>
-            </>
-          ))}
         </Container>
 
       </StyledJumbotron>
       <Container>
-
-        <StyledRow>
-          <Col>
-            <StyledCard>
-              <h3>Find books of your mood</h3>
-              <FindBooksOfYourMood />
-            </StyledCard>
-          </Col>
-        </StyledRow>
         <StyledRow>
           <Container>
             <h3>Latest Reviewed Books</h3>

@@ -125,7 +125,7 @@ export const BookReviewPage = (props) => {
             <StyledRowUserReviews>
               <StyledContainer>
                 <StyledRow>
-                  <h2>User Reviews</h2><br />
+                  <h2>User Reviews</h2><br/>
                   {(role === 'ROLE_USER') ? (<WriteUserReview book={book} />) : null}
                   <ListGroup>{Object.keys(bookContent.userReviews).map((d, key) => (
                     <ListGroup.Item variant='success' key={key} className="ml-4">
