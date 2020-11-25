@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useTemporary } from '@internship/shared/hooks';
 import { useHistory } from 'react-router-dom';
-import { Button } from '@internship/ui';
+import { Button, Popup } from '@internship/ui';
 import styled from 'styled-components';
 import { becomeEditorAsync, updateAsync } from '@internship/store/authentication';
 
@@ -28,6 +28,10 @@ export const BecomeAnEditor = () => {
   const onChange = () => {
     setOpen(true);
   };
+  const successPopupFunction = () => {
+    dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+    history.push('/');
+  };
 
   return (
     <StyledApp>
@@ -47,15 +51,6 @@ export const BecomeAnEditor = () => {
           </Form.Label>
           <Col sm={8}>
             <Form.Control name="lastname" type="lastname" onChange={onChange}
-                          ref={register({ required: true })} />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} controlId="email">
-          <Form.Label column sm={2}>
-            Email
-          </Form.Label>
-          <Col sm={8}>
-            <Form.Control name="email" type="email" onChange={onChange}
                           ref={register({ required: true })} />
           </Col>
         </Form.Group>
@@ -124,6 +119,14 @@ export const BecomeAnEditor = () => {
           </Button>
         </Row>
       </Form>
+      {isSuccessRequired &&  (
+        <>
+          <Popup show={true} onHide={successPopupFunction}>
+            {isSuccessRequired}
+          </Popup>
+          {setTimeout(successPopupFunction, 4000)}
+        </>
+      )}
     </StyledApp>
   );
 };
