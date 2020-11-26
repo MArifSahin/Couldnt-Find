@@ -24,6 +24,12 @@ const success = {
   },
   'user/become-editor': {
     '200': 'Form sent to admin. It will be evaluated in 2 days.'
+  },
+  'book/write-user-review': {
+    '200': 'Your review is published successfully! You can see below'
+  },
+  'book/write-editor-review': {
+    '200': 'Your review is published successfully! You can see below'
   }
 };
 export const successInterceptor = (res: AxiosResponse) => {
@@ -31,7 +37,9 @@ export const successInterceptor = (res: AxiosResponse) => {
   if (res?.config.url.endsWith('/signin') || res?.config.url.endsWith('/sign-up')
     || res?.config.url.endsWith('/change-password') || res?.config.url.endsWith('/create-new-password')
     || res?.config.url.endsWith('/forgot-password') || res?.config.url.endsWith('/edit')
-    || res?.config.url.endsWith('/become-editor')) {
+    || res?.config.url.endsWith('/become-editor')
+    || res?.config.url.endsWith('/write-user-review')
+    || res?.config.url.endsWith('/write-editor-review')) {
     successMessage = success[res.config.url][res?.status];
   } else if (res?.config.url.startsWith('auth/send-email') && res?.status === 200) {
     successMessage = success['auth/send-email']['200'];
