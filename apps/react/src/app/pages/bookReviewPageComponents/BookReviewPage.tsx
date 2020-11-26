@@ -7,6 +7,7 @@ import { useGetRole, useTemporary } from '@internship/shared/hooks';
 import { WriteUserReview } from './WriteUserReview';
 import { WriteEditorReview } from './WriteEditorReview';
 import { api } from '@internship/shared/api';
+import ShowMoreText from 'react-show-more-text';
 
 const StyledApp = styled.div`
   font-family: sans-serif;
@@ -46,6 +47,7 @@ const StyledContainer = styled(Container)`
 export const BookReviewPage = (props) => {
   const history = useHistory();
   const { isErrorRequired, isSuccessRequired } = useTemporary();
+  const [contentChange, setContentChange] = useState(false);
   const { role } = useGetRole();
   const [bookContent, setBookContent] = useState(null);
   const [bookLoaded, setBookLoaded] = useState(false);
@@ -63,18 +65,19 @@ export const BookReviewPage = (props) => {
       .then((r) => {
         setBookContent(r);
         setBookLoaded(true);
+        setContentChange(false);
       })
       .catch((e) => console.error(e));
-  }, []);
+  }, [contentChange]);
 
   let showWriteEditorReview = <span>-</span>;
   if (role === 'ROLE_EDITOR') {
-    showWriteEditorReview = <WriteEditorReview book={book} />;
+    showWriteEditorReview = <WriteEditorReview bookContent={book} setContentChange={setContentChange} />;
   }
 
   let showWriteUserReview = <span>-</span>;
   if (role === 'ROLE_USER') {
-    showWriteUserReview = <WriteUserReview book={book} />;
+    showWriteUserReview = <WriteUserReview bookContent={book} setContentChange={setContentChange} />;
   }
 
   return (
@@ -124,12 +127,20 @@ export const BookReviewPage = (props) => {
             </StyledRowContent>
             <StyledRowUserReviews>
               <StyledContainer>
+                <StyledRow><h2>User Reviews</h2><br /></StyledRow>
                 <StyledRow>
-                  <h2>User Reviews</h2><br/>
-                  {(role === 'ROLE_USER') ? (<WriteUserReview book={book} />) : null}
+                  {(role === 'ROLE_USER') ? (
+                    <WriteUserReview bookContent={book} setContentChange={setContentChange} />) : null}
                   <ListGroup>{Object.keys(bookContent.userReviews).map((d, key) => (
-                    <ListGroup.Item variant='success' key={key} className="ml-4">
-                      <p>{bookContent.userReviews[d]}</p>
+                    <ListGroup.Item variant='secondary' key={key} className="ml-4">
+                      <ShowMoreText
+                        /* Default options */
+                        lines={4}
+                        more='Show more'
+                        less='Show less'
+                      >
+                        <p>{bookContent.userReviews[d]}</p>
+                      </ShowMoreText>
                       <footer className="blockquote-footer float-right">
                         {d}
                       </footer>
@@ -185,7 +196,6 @@ export const BookReviewPage = (props) => {
             </StyledRowUserReviews>
           </>
         }
-
       </StyledContainer>
     </StyledApp>
   );

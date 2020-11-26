@@ -58,7 +58,7 @@ export const Movie = () => {
             <StyledCard>
               <h3>Find movie of your mood</h3>
             </StyledCard>
-          </Col>refre
+          </Col>
         </StyledRow>
         <StyledRow>
           <h2>Last Reviewed Movies</h2>
