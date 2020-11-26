@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Jumbotron, Row, Col, Card, Spinner, ListGroup, Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import {
-  api,
-  HighestRatedBookInfoResponse,
-  HighestReviewedBookInfoResponse,
-} from '@internship/shared/api';
+import { api, DashboardBookInfoResponse } from '@internship/shared/api';
 import axios from 'axios';
 import { API_KEY } from '@internship/shared/types';
 import { useHistory } from 'react-router-dom';
@@ -42,9 +38,9 @@ const StyledCard = styled(Card)`
 
 
 export const MainPage = () => {
-  const [highestRatedBooks, setHighestRatedBooks] = useState<HighestRatedBookInfoResponse[]>();
+  const [highestRatedBooks, setHighestRatedBooks] = useState<DashboardBookInfoResponse[]>();
   const history = useHistory();
-  const [highestReviewedBooks, setHighestReviewedBooks] = useState<HighestReviewedBookInfoResponse[]>();
+  const [highestReviewedBooks, setHighestReviewedBooks] = useState<DashboardBookInfoResponse[]>();
   const [apiKey, setApiKey] = useState(API_KEY);
   const [highestRatedBooksLoaded, setHighestRatedBooksLoaded] = useState(false);
   const [highestReviewedBooksLoaded, setHighestReviewedBooksLoaded] = useState(false);
@@ -68,8 +64,8 @@ export const MainPage = () => {
 
   }, []);
 
-  const onClick = (bookName) => {
-    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookName}
+  const onClick = (bookName, bookId) => {
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookName}+id:${bookId}
       &key=${apiKey}&maxResults=1&orderBy=relevance&printType=books&projection=lite`)
       .then(data => {
         {data.data.items.map(book => (
@@ -84,8 +80,8 @@ export const MainPage = () => {
   if (highestRatedBooksLoaded) {
     showHighestRatedBook=<Container><ListGroup>{Object.keys(highestRatedBooks).map((d, key) => (
           <ListGroup.Item variant='secondary' key={key} className="ml-4">
-            <Row><Col><b>{d} : </b> </Col><Col>{highestRatedBooks[d]}</Col></Row>
-            <Button size="sm" className="float-right" onClick={() => onClick(d)} variant="outline-success">see review</Button>
+            <Row><Col><b>{d} : </b> </Col><Col>{highestRatedBooks[d].editorScore}</Col></Row>
+            <Button size="sm" className="float-right" onClick={() => onClick(d,highestRatedBooks[d].bookId)} variant="outline-success">see review</Button>
           </ListGroup.Item>
     ))}</ListGroup></Container>
   }
@@ -93,8 +89,8 @@ export const MainPage = () => {
   if (highestReviewedBooksLoaded) {
     showHighestReviewedBook=<Container><ListGroup>{Object.keys(highestReviewedBooks).map((d, key) => (
       <ListGroup.Item variant='secondary' key={key} className="ml-4">
-        <Row><Col><b>{d} : </b> </Col><Col>{highestReviewedBooks[d]}</Col></Row>
-        <Button size="sm" className="float-right" onClick={() => onClick(d)} variant="outline-success">see review</Button>
+        <Row><Col><b>{d} : </b> </Col><Col>{highestReviewedBooks[d].reviewNumber}</Col></Row>
+        <Button size="sm" className="float-right" onClick={() => onClick(d,highestReviewedBooks[d].bookId)} variant="outline-success">see review</Button>
       </ListGroup.Item>
     ))}</ListGroup></Container>
   }

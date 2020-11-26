@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
 import { Jumbotron, Row, Col, Card, Image, Figure, Media, Badge, Spinner, ListGroup, Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import { api, LatestReviewedBookInfoResponse } from '@internship/shared/api';
+import { api, DashboardBookInfoResponse } from '@internship/shared/api';
 import { FindBooksOfYourMood } from './FindBooksOfYourMood';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -46,7 +46,7 @@ export const Book = () => {
   const [apiKey, setApiKey] = useState(API_KEY);
   const [searchResults, setSearchResults] = useState([]);
   const [book, setSearchedItem] = useState('');
-  const [latestReviewedBooks, setLatestReviewedBooks] = useState<LatestReviewedBookInfoResponse>(null);
+  const [latestReviewedBooks, setLatestReviewedBooks] = useState<DashboardBookInfoResponse>(null);
   const [latestReviewedBooksLoaded, setLatestReviewedBooksLoaded] = useState(false);
 
   useEffect(() => {
@@ -62,8 +62,8 @@ export const Book = () => {
 
   let showLatestReviewedBook = <Spinner animation="border" />;
 
-  const onClick = (bookName) => {
-    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookName}
+  const onClick = (bookName,bookId) => {
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookName}+id:${bookId}
       &key=${apiKey}&maxResults=1&orderBy=relevance&printType=books&projection=lite`)
       .then(data => {
         console.log(data.data.items);
@@ -78,7 +78,7 @@ export const Book = () => {
   if (latestReviewedBooksLoaded) {
     showLatestReviewedBook = <ListGroup>{Object.keys(latestReviewedBooks).map((d, key) => (
       <ListGroup.Item variant='secondary' key={key} className="ml-4">
-        <h4><b>{d}</b><Button className="float-right" onClick={() => onClick(d)} variant="outline-success">see full
+        <h4><b>{d}</b><Button className="float-right" onClick={() => onClick(d, latestReviewedBooks[d].bookId)} variant="outline-success">see full
           review</Button></h4>
         Editor Score:<Badge variant="info">{latestReviewedBooks[d].editorScore}</Badge>
         User Score:<Badge variant="info">{latestReviewedBooks[d].userScore}</Badge>
