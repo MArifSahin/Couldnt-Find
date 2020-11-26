@@ -6,26 +6,11 @@ export interface BookDetailResponse {
   reviewNumber: number;
 }
 
-export interface HighestRatedBookInfoResponse {
-  editorScore: number;
-  bookName: string;
-}
-
-export interface HighestReviewedBookInfoResponse {
-  reviewNumber: number;
-  bookName: string;
-}
-
-export interface LatestReviewedBookInfoResponse {
+export interface DashboardBookInfoResponse {
   editorScore: number;
   userScore: number;
   editorReview: string;
   editor: string;
-}
-
-export interface BooksOfYourMoodInfoResponse {
   bookId: string;
-  bookName: string;
-  editorScore: number;
-  userScore: number;
+  reviewNumber: number;
 }
