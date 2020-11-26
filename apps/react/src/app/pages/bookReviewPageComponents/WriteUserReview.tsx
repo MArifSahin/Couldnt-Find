@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Alert, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -8,6 +8,7 @@ import { useTemporary } from '@internship/shared/hooks';
 import {  writeUserReviewAsync } from '@internship/store/content';
 import styled from 'styled-components';
 import { api } from '@internship/shared/api';
+import { useHistory } from 'react-router-dom';
 
 const StyledContainer = styled(Container)`
   fluid:md;
@@ -15,13 +16,19 @@ const StyledContainer = styled(Container)`
   padding: 1rem;
 `;
 
-export const WriteUserReview = (props) => {
+type WriteUserReviewProps = {
+  bookContent;
+  setContentChange;
+};
+
+export const WriteUserReview: React.FC<WriteUserReviewProps> = ({ bookContent, setContentChange }) => {
+  const history = useHistory();
   const { handleSubmit, register } = useForm();
   const dispatch = useDispatch();
   const [userScore, setUserScore] = useState(0);
   const { isErrorRequired, isSuccessRequired } = useTemporary();
 
-  const book = props.book;
+  const book = bookContent;
   const onSubmit = (values) => {
     values.userScore = userScore;
     values.bookId = book.id;
@@ -30,6 +37,7 @@ export const WriteUserReview = (props) => {
     // dispatch(writeUserReviewAsync.request(values));
     api.book
       .writeUserReview(values)
+      .then( setContentChange(true))
       .catch((e) => console.error(e));
   };
 
@@ -37,6 +45,7 @@ export const WriteUserReview = (props) => {
     <StyledContainer>
       <Card bg='secondary' border='danger'>
         <Form onSubmit={handleSubmit(onSubmit)}>
+          <Alert variant="info"> If you already wrote a review for this book, it will be updated with this one.</Alert>
           <Col>
             <Form.Label>Give your score!</Form.Label>
           </Col>
