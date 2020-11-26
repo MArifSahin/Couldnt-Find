@@ -4,7 +4,7 @@ import RangeSlider from 'react-bootstrap-range-slider';
 import { useForm } from 'react-hook-form';
 import { Button } from '@internship/ui';
 import styled from 'styled-components';
-import { api, BooksOfYourMoodInfoResponse, HighestReviewedBookInfoResponse } from '@internship/shared/api';
+import { api, DashboardBookInfoResponse} from '@internship/shared/api';
 import axios from 'axios';
 import { API_KEY } from '@internship/shared/types';
 import { useHistory } from 'react-router-dom';
@@ -17,23 +17,23 @@ const StyledApp = styled.div`
 
 
 export const FindBooksOfYourMood = () => {
-  const [books, setBooks] = useState<BooksOfYourMoodInfoResponse[]>();
+  const [books, setBooks] = useState<DashboardBookInfoResponse[]>();
   const [booksLoaded, setBooksLoaded] = useState(false);
   const history = useHistory();
   const [apiKey, setApiKey] = useState(API_KEY);
   const { handleSubmit, register } = useForm();
   const [moods, setMoods] = useState({
-    drama: 0,
-    fun: 0,
-    action: 0,
-    adventure: 0,
-    romance: 0,
-    thriller: 0,
-    horror: 0
+    drama: 60,
+    fun: 60,
+    action: 60,
+    adventure: 60,
+    romance: 60,
+    thriller: 60,
+    horror: 60
   });
 
-  const onClick = (bookName) => {
-    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookName}
+  const onClick = (bookName, bookId) => {
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookName}+id:${bookId}
       &key=${apiKey}&maxResults=1&orderBy=relevance&printType=books&projection=lite`)
       .then(data => {
         {
@@ -61,12 +61,12 @@ export const FindBooksOfYourMood = () => {
     if(books.length===0){
       showBooks=<Alert variant="info">There is no such book... You are in a bad mood huh!</Alert>
     }else{
-      showBooks = <Container fluid><ListGroup>{books.map(book => (
-        <ListGroup.Item variant='secondary' key={book.bookName} className="ml-4">
-          <h5><b>{book.bookName}</b></h5>
-          <Badge variant="dark">Editor:{book.editorScore}</Badge>
-          <Badge variant="secondary">User:{book.userScore}</Badge>
-          <Button size="sm" className="float-right" onClick={() => onClick(book.bookName)} variant="outline-success">see
+      showBooks = <Container fluid><ListGroup>{Object.keys(books).map((d, key) => (
+        <ListGroup.Item variant='secondary' key={key} className="ml-4">
+          <h5><b>{d}</b></h5>
+          <Badge variant="dark">Editor:{books[d].editorScore}</Badge>
+          <Badge variant="secondary">User:{books[d].userScore}</Badge>
+          <Button size="sm" className="float-right" onClick={() => onClick(d,books[d].bookId)} variant="outline-success">see
             review</Button>
           {/*Editor Score:<Badge variant="info">{d}</Badge>*/}
           {/*User Score:<Badge variant="info">{books}</Badge>*/}
