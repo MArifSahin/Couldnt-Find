@@ -11,4 +11,5 @@ export * from './Movie';
 export * from './bookReviewPageComponents/BookReviewPage';
 export * from './forgotPassword';
 export * from './BecomeAnEditor';
+export * from './MyReviews'
 

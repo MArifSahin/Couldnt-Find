@@ -14,3 +14,10 @@ export interface DashboardBookInfoResponse {
   bookId: string;
   reviewNumber: number;
 }
+
+export interface BookReviewResponse {
+  score: number;
+  reviewText: string;
+  bookName: string;
+  reviewDate: string;
+}

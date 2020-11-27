@@ -11,7 +11,8 @@ import {
   ResetPassword,
   Book,
   Movie,
-  BookReviewPage, BecomeAnEditor
+  BookReviewPage, BecomeAnEditor,
+  MyReviews
 } from './pages';
 
 export const Routes = ({ children, ...props }) => {
@@ -31,6 +32,7 @@ export const Routes = ({ children, ...props }) => {
       <Route path="/register" component={Register} />
       <Route path="/reviewPage" component={BookReviewPage} />
       <Route path="/becomeAnEditor" component={BecomeAnEditor} />
+      <Route path="/myReviews" component={MyReviews} />
     </Router>
   );
 };

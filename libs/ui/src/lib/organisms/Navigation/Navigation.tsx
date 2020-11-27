@@ -90,6 +90,17 @@ export const Navigation = () => {
         </Nav>
         {isAuthenticated ? (
           <>
+            <NavLink
+              className="mr-1"
+              to="/myReviews"
+              type="button"
+              onClick={() => {
+                dispatch({ type: '@temp/ERROR_REQUIRED', payload: null });
+                dispatch({ type: '@temp/SUCCESS_REQUIRED', payload: null });
+              }}
+            >
+              <Button variant="outline-success ">My Reviews</Button>
+            </NavLink>
             {role === 'ROLE_EDITOR' ? null : (
               <>
                 <NavLink to="/becomeAnEditor">

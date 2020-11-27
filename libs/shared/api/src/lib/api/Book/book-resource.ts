@@ -13,6 +13,6 @@ export class BookResource {
   getHighestRatedBooks = (): Promise<any> => this.axios.get('book/highest-rated', this.axiosRequestConfig).then((r) => r.data);
   getHighestReviewedBooks = (): Promise<any> => this.axios.get('book/highest-reviewed', this.axiosRequestConfig).then((r) => r.data);
   getBooksOfYourMood = (data: any): Promise<any> => this.axios.post('book/find-book-of-mood', data, this.axiosRequestConfig).then((r) => r.data);
-
+  getMyReviews = (): Promise<any> => this.axios.get('book/my-reviews', this.axiosRequestConfig).then((r) => r.data);
 
 }
